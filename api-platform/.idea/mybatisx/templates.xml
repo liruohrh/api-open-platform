@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="TemplatesSettings">
+    <option name="templateConfigs">
+      <TemplateContext>
+        <option name="generateConfig">
+          <GenerateConfig>
+            <option name="annotationType" value="NONE" />
+            <option name="basePackage" value="com.eduadmin" />
+            <option name="basePath" value="" />
+            <option name="classNameStrategy" value="camel" />
+            <option name="encoding" value="UTF-8" />
+            <option name="extraClassSuffix" value="" />
+            <option name="ignoreFieldPrefix" value="" />
+            <option name="ignoreFieldSuffix" value="" />
+            <option name="ignoreTablePrefix" value="" />
+            <option name="ignoreTableSuffix" value="" />
+            <option name="moduleName" value="api-platform" />
+            <option name="modulePath" value="$PROJECT_DIR$/../../" />
+            <option name="moduleUIInfoList">
+              <list>
+                <ModuleInfoGo>
+                  <option name="basePath" value="" />
+                  <option name="configFileName" value="domain.ftl" />
+                  <option name="configName" value="domain" />
+                  <option name="encoding" value="UTF-8" />
+                  <option name="fileName" value="${domain.fileName}" />
+                  <option name="fileNameWithSuffix" value="${domain.fileName}.java" />
+                  <option name="modulePath" value="$PROJECT_DIR$/../../" />
+                  <option name="packageName" value="com.eduadmin.entity" />
+                </ModuleInfoGo>
+              </list>
+            </option>
+            <option name="needToStringHashcodeEquals" value="true" />
+            <option name="needsComment" value="true" />
+            <option name="needsModel" value="true" />
+            <option name="relativePackage" value="entity" />
+            <option name="superClass" value="" />
+            <option name="tableUIInfoList">
+              <list>
+                <TableUIInfo>
+                  <option name="className" value="AcademicWarning" />
+                  <option name="tableName" value="academic_warning" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="ClassRoom" />
+                  <option name="tableName" value="class_room" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="ClassRoomUsingRecord" />
+                  <option name="tableName" value="class_room_using_record" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="Course" />
+                  <option name="tableName" value="course" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="CourseArrangement" />
+                  <option name="tableName" value="course_arrangement" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="CourseScheduleArrangement" />
+                  <option name="tableName" value="course_schedule_arrangement" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="CreditTransferApplication" />
+                  <option name="tableName" value="credit_transfer_application" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="Exam" />
+                  <option name="tableName" value="exam" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="ExemptionApplication" />
+                  <option name="tableName" value="exemption_application" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="GraduationInfoFeedback" />
+                  <option name="tableName" value="graduation_info_feedback" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="MajorTransferApplication" />
+                  <option name="tableName" value="major_transfer_application" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="MinorMajorApplication" />
+                  <option name="tableName" value="minor_major_application" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="MinorMajorGraduationApplication" />
+                  <option name="tableName" value="minor_major_graduation_application" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="SelectedCourse" />
+                  <option name="tableName" value="selected_course" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="StuEnrollment" />
+                  <option name="tableName" value="stu_enrollment" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="StuExam" />
+                  <option name="tableName" value="stu_exam" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="StudentClass" />
+                  <option name="tableName" value="student_class" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="StudentEnrollmentChangeApplication" />
+                  <option name="tableName" value="student_enrollment_change_application" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="StudentInfo" />
+                  <option name="tableName" value="student_info" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="StudentScore" />
+                  <option name="tableName" value="student_score" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="TeacherInfo" />
+                  <option name="tableName" value="teacher_info" />
+                </TableUIInfo>
+                <TableUIInfo>
+                  <option name="className" value="User" />
+                  <option name="tableName" value="user" />
+                </TableUIInfo>
+              </list>
+            </option>
+            <option name="templatesName" value="custom-model-swagger" />
+          </GenerateConfig>
+        </option>
+        <option name="moduleName" value="api-platform" />
+        <option name="projectPath" value="$PROJECT_DIR$" />
+        <option name="templateName" value="custom-model-swagger" />
+      </TemplateContext>
+    </option>
+  </component>
+</project>

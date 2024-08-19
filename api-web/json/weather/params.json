@@ -1,0 +1,17 @@
+{
+  "city": {
+    "type": "string",
+    "required": false,
+    "desc": "城市，城市、ip二选一"
+  },
+  "ip": {
+    "type": "string",
+    "required": false,
+    "desc": "ip"
+  },
+  "type": {
+    "type": "string",
+    "required": false,
+    "desc": "默认一天，还支持week（周）"
+  }
+}

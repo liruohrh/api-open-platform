@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: dev
+  redis:
+    #   如果有redisson配置，则redisson不读redis配置
+    redisson:
+      file: classpath:/redisson.yml
+  cloud:
+    loadbalancer:
+      nacos:
+        enabled: true
+#    discovery:
+#      enabled: true
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        enabled: true
+        register-enabled: true
+        service: ${spring.application.name}
+        ip-type: IPv4
+        namespace: e0673429-263b-49f1-9a4f-ea0527d5b07b
+        group: ${spring.profiles.active}
+    gateway:
+      routes:
+        # 平台
+        - id: api-platform
+#          uri: http://127.0.0.1:8080
+          uri: lb://api-platform
+          predicates:
+            - Path=/api-platform/**
+#        # 在线调用接口路由
+#        - id: call_online_route # 接口路由
+#          uri: lb://api-interface
+#          metadata:
+#            from: frontend_callOL
+#          predicates:
+#            - Path=/apicore/call/ol/** # 符合 /apicore/call/ol/** 的地址会被路由
+#          filters:
+#            - name: RequestRateLimiter
+#              args:
+#                redis-rate-limiter.replenishRate: 1
+#                redis-rate-limiter.burstCapacity: 4
+#                keyResolver: '#{@myKeyResolver}'
+#            - RewritePath=/apicore/call/ol/(?<segment>.*),/api/${segment}
+        - id: api-web
+          uri: lb://api-web
+          predicates:
+            - Path=/api/web/**
+#          filters:
+#            - name: RequestRateLimiter
+#              args:
+#                redis-rate-limiter.replenishRate: 1   # 令牌桶每秒填充速率 生产令牌速度，每秒多少个令牌
+#                redis-rate-limiter.burstCapacity: 4   # 令牌桶总容量
+#                keyResolver: '#{@myKeyResolver}'  # 使用SpringEL表达式，从Spring容器中找对象，并赋值。 '#{@beanName}'
+server:
+  port: 9000
+dubbo:
+  application:
+    name: dubbo-api-gateway
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos
+    #    register-consumer-url=true：注册为消费者
+    address: nacos://localhost:8848?register-consumer-url=true&namespace=e0673429-263b-49f1-9a4f-ea0527d5b07b
+    group: dubbo-${spring.profiles.active}
+    register-mode: instance
+api-gateway:
+  replay-attack:
+    max-alive-time:  300000

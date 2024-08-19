@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.apache.dubbo:dubbo-spring-boot-autoconfigure:3.2.15">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.m2/repository/org/apache/dubbo/dubbo-spring-boot-autoconfigure/3.2.15/dubbo-spring-boot-autoconfigure-3.2.15.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.m2/repository/org/apache/dubbo/dubbo-spring-boot-autoconfigure/3.2.15/dubbo-spring-boot-autoconfigure-3.2.15-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.m2/repository/org/apache/dubbo/dubbo-spring-boot-autoconfigure/3.2.15/dubbo-spring-boot-autoconfigure-3.2.15-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

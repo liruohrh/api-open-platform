@@ -1,0 +1,112 @@
+{
+  "code": {
+    "option": false,
+    "type": "integer",
+    "desc": "响应码"
+  },
+  "data": {
+    "option": true,
+    "type": "object",
+    "nestedType": {
+      "city": {
+        "option": false,
+        "type": "string",
+        "desc": "城市"
+      },
+      "weatherList": [
+        {
+          "date": {
+            "option": false,
+            "type": "string",
+            "desc": "日期"
+          },
+          "week": {
+            "option": false,
+            "type": "string",
+            "desc": "星期几"
+          },
+          "type": {
+            "option": false,
+            "type": "string",
+            "desc": "天气类型"
+          },
+          "lowDegreesCelsius": {
+            "option": false,
+            "type": "string",
+            "desc": "最低温度"
+          },
+          "highDegreesCelsius": {
+            "option": false,
+            "type": "string",
+            "desc": "最高温度"
+          },
+          "windDirection": {
+            "option": false,
+            "type": "string",
+            "desc": "风向"
+          },
+          "windForce": {
+            "option": false,
+            "type": "string",
+            "desc": "风级"
+          },
+          "night": {
+            "desc": "也是weatherList的元素类型"
+          }
+        }
+      ],
+      "air": {
+        "aqi": {
+          "option": false,
+          "type": "integer",
+          "desc": "空气质量指数"
+        },
+        "aqiLevel": {
+          "option": true,
+          "type": "integer",
+          "desc": " 空气质量等级"
+        },
+        "aqiName": {
+          "option": false,
+          "type": "string",
+          "desc": " 空气质量等级名称"
+        },
+        "co": {
+          "option": false,
+          "type": "string",
+          "desc": " 一氧化碳浓度"
+        },
+        "no2": {
+          "option": false,
+          "type": "string",
+          "desc": "  二氧化氮浓度"
+        },
+        "o3": {
+          "option": false,
+          "type": "string",
+          "desc": " 臭氧浓度"
+        },
+        "pm10": {
+          "option": false,
+          "type": "string",
+          "desc": " 可吸入颗粒物(PM10)浓度"
+        },
+        "pm25": {
+          "option": false,
+          "type": "string",
+          "desc": "  细颗粒物(PM2.5)浓度"
+        },
+        "so2": {
+          "option": true,
+          "type": "string",
+          "desc": " 二氧化硫浓度"
+        }
+      }
+    }
+  },
+  "message": {
+    "option": true,
+    "type": "string",
+    "desc": "错误信息"
+  }
+}

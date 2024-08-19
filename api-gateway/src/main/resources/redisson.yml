@@ -1,0 +1,12 @@
+useScriptCache: true
+# SpringDataRedis 使用这个被忽略，需要配置 SpringDataRedis
+#codec: !<org.redisson.client.codec.StringCodec> {}
+#!符号用于表示使用 Java 的类型转换机制来解析 YML 中的数据类型，<org.redisson.codec.JsonJacksonCodec> 表示使用 JsonJacksonCodec 类型的编解码器
+#它使用 Jackson 库来对 Redisson 对象进行 JSON 序列化/反序列化。
+#最后的 {} 表示一个空的 Map 对象，用于指定 JsonJacksonCodec 对象的一些配置参数。在这里我们没有指定任何参数，所以它是一个空的对象。
+singleServerConfig:
+  address: redis://127.0.0.1:6379 #其实是redis的URI
+  database: 0 #default
+  username: root
+  password: 123456
+  clientName: api-platform-gateway

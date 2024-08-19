@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: api-web
+  profiles:
+    active: dev
+  cloud:
+    discovery:
+      enabled: true
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        enabled: true
+        register-enabled: true
+        service: ${spring.application.name}
+        ip-type: IPv4
+        namespace: c976d96b-e5ab-4546-9803-6571d5a1a79e
+        group: ${spring.profiles.active}
+server:
+  port: 9001
+  servlet:
+    context-path: /api/web

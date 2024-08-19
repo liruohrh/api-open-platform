@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.github.liruohrh</groupId>
+  <artifactId>api-open-platform</artifactId>
+  <version>0.0.1</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>api-platform</module>
+    <module>api-web</module>
+    <module>api-common</module>
+    <module>api-gateway</module>
+    <module>api-web-common</module>
+    <module>api-service</module>
+    <module>api-client-sdk</module>
+  </modules>
+
+  <properties>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <springboot.version>2.7.12</springboot.version>
+    <spring-cloud.version>2021.0.9</spring-cloud.version>
+    <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
+    <dubbo.version>3.2.15</dubbo.version>
+  </properties>
+
+
+  <dependencyManagement>
+    <dependencies>
+
+      <dependency>
+        <groupId>org.redisson</groupId>
+        <artifactId>redisson-spring-boot-starter</artifactId>
+        <!--      latest support springboot2-->
+        <version>3.18.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-boot-starter</artifactId>
+        <version>3.5.5</version>
+      </dependency>
+
+      <dependency>
+        <groupId>cn.hutool</groupId>
+        <artifactId>hutool-all</artifactId>
+        <version>5.8.26</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.xiaoymin</groupId>
+        <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
+        <version>4.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.26</version>
+        <scope>provided</scope>
+      </dependency>
+    </dependencies>
+
+  </dependencyManagement>
+</project>
