@@ -1,0 +1,37 @@
+spring:
+  config:
+    import:
+      - file:../private/mail.yml
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: api-platform
+  profiles:
+    active: dev
+  mail:
+    #username
+    #password
+    default-encoding: utf-8
+    host: smtp.163.com
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+server:
+  port: 8080
+  servlet:
+    context-path: /api-platform
+api-platform:
+  login:
+    white-list:
+      - /doc.html
+      - /webjars/**
+      - /favicon.ico
+      - /swagger-ui.html
+      - /v3/api-docs/**
+      - /email/captcha
+      - /oss/file
+      - /user/login
+      - /user/register
+      - /oss/static/**
