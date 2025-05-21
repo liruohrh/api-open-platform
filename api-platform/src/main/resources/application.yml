@@ -1,7 +1,7 @@
 spring:
   config:
     import:
-      - file:../private/mail.yml
+      - file:./private/mail.yml
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
@@ -18,10 +18,31 @@ spring:
         smtp:
           ssl:
             enable: true
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        enabled: true
+        register-enabled: true
+        service: ${spring.application.name}
+        ip-type: IPv4
+        namespace: e0673429-263b-49f1-9a4f-ea0527d5b07b
+        group: ${spring.profiles.active}
 server:
   port: 8080
   servlet:
     context-path: /api-platform
+dubbo:
+  application:
+    name: api-platform
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos
+    address: nacos://localhost:8848?namespace=e0673429-263b-49f1-9a4f-ea0527d5b07b
+    group: dubbo-${spring.profiles.active}
+    register-mode: instance
 api-platform:
   login:
     white-list:
@@ -34,4 +55,5 @@ api-platform:
       - /oss/file
       - /user/login
       - /user/register
+      - /user/passwd
       - /oss/static/**
