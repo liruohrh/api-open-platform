@@ -307,7 +307,7 @@ public class HttpApiServiceImpl extends ServiceImpl<HttpApiMapper, HttpApi>
     afterCallAPI(
         responseEntity.getStatusCode().isError(),
         (int) (end - start),
-        !httpApi.getPrice().equals(0.0),
+        httpApi.getPrice().equals(0.0),
         apiId, caller.getId()
     );
 
@@ -333,7 +333,7 @@ public class HttpApiServiceImpl extends ServiceImpl<HttpApiMapper, HttpApi>
       Long callerId) {
     if (isSuccess && Boolean.FALSE.equals(isFreeAPI)) {
       MustUtils.dbSuccess(apiCallService.update(new LambdaUpdateWrapper<ApiCall>()
-          .eq(ApiCall::getId, apiId)
+          .eq(ApiCall::getApiId, apiId)
           .eq(ApiCall::getCallerId, callerId)
           .setSql("left_times = left_times - 1")
       ));

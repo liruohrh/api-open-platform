@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +23,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class OssController {
   private final String port;
-  private final RedisTemplate<Object, Object> redisTemplate;
 
   public OssController(
-  @Value("${server.port}") String port,RedisTemplate<Object, Object> redisTemplate
+  @Value("${server.port}") String port
 
   ) {
     this.port = port;
-    this.redisTemplate = redisTemplate;
   }
 
 
