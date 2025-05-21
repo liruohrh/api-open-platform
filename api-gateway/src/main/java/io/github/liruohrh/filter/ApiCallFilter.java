@@ -91,7 +91,8 @@ public class ApiCallFilter implements GlobalFilter, Ordered {
     }
     //一段时间内，nonce只有一个
     RBucket<Object> nonceString = redissonClient.getBucket("apiplatform:replayattack:" + nonce);
-    if (!nonceString.setIfAbsent(nonce, Duration.ofMillis(5 * 60 * 1000))) {
+    //改为设置空字符串，不需要存这个值，只需要判断存不存在
+    if (!nonceString.setIfAbsent("", Duration.ofMillis(5 * 60 * 1000))) {
       log.warn("path=[{}], remoteAddr=[{}], reason=[nonce已存在], nonce=[{}]",
           req.getPath(), req.getRemoteAddress(), nonce
       );
@@ -185,7 +186,7 @@ public class ApiCallFilter implements GlobalFilter, Ordered {
                       bodyString = "not json, but " + getDelegate().getHeaders().getContentType();
                     }
                     if (exchange.getRequest().getRemoteAddress() == null) {
-                      remoteAddr = "RemoteAddress is null";
+                      remoteAddr = "null";
                     } else {
                       remoteAddr = exchange.getRequest().getRemoteAddress().toString();
                     }
