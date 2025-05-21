@@ -1,10 +1,9 @@
 package io.github.liruohrh.apiplatform.model.req.user;
 
 import io.github.liruohrh.apiplatform.constant.CommonConstant;
-import io.github.liruohrh.model.entity.User;
 import io.github.liruohrh.apiplatform.model.enume.LoginType;
+import io.github.liruohrh.model.entity.User;
 import java.io.Serializable;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -23,7 +22,7 @@ public class UserLoginReq implements Serializable {
   /**
    *
    */
-  @Min(value = 5, message = "密码长度不低于5")
+  @Size(min = 5, message = "密码长度不低于5")
   private String passwd;
   /**
    *
