@@ -14,7 +14,7 @@
       <sourceFolder url="file://$MODULE_DIR$/api-web-common/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/api-web-common/target" />
     </content>
-    <orderEntry type="jdk" jdkName="1.8_u391" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="api-common" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-web:5.3.27" level="project" />
