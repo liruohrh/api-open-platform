@@ -80,7 +80,6 @@ public class LoginFilter extends OncePerRequestFilter {
             && whitePath.getPattern().matches(pathContainer))){
       if(cookie != null){
         saveLoginContext(request, response, cookie);
-        return;
       }
       filterChain.doFilter(request, response);
       return;
