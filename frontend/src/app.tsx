@@ -107,12 +107,19 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
      * @param location：引起history变化的值，即新history.location
      */
     onPageChange: (location) => {
-
+      console.log("onPageChange", {
+        argLocation: location?.pathname,
+        umiHistoryLocation: history.location.pathname,
+        broswerLocation: window.location.pathname,
+        user: initialState?.currentUser
+      });
       if (!initialState?.currentUser
         && history.location.pathname !== loginPath
         && NeedLogin(location?.pathname ?? "")
       ) {
-        history.push(loginPath);
+        //用replace而不是push
+        // 因为当前栈顶是登录权限页面，如果用push，在后退时又会因为未登录而导致重新前往登录页面
+        history.replace(loginPath);
       }
     },
     bgLayoutImgList: [
