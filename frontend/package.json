@@ -1,5 +1,5 @@
 {
-  "name": "ant-design-pro",
+  "name": "api-open-platform",
   "version": "6.0.0",
   "private": true,
   "description": "An out-of-box UI solution for enterprise applications",
@@ -48,7 +48,7 @@
     "@ant-design/icons": "^4.8.1",
     "@ant-design/pro-components": "^2.6.48",
     "@umijs/route-utils": "^2.2.2",
-    "ant-design-pro": "file:",
+    "api-open-platform": "file:",
     "antd": "^5.13.2",
     "antd-style": "^3.6.1",
     "classnames": "^2.5.1",
