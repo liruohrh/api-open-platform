@@ -108,7 +108,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
      */
     onPageChange: (location) => {
       console.log("onPageChange", {
+        // 路由框架的值，是不包含设置的前缀的
         argLocation: location?.pathname,
+        // 浏览器地址栏的值，是包含前缀的
         umiHistoryLocation: history.location.pathname,
         broswerLocation: window.location.pathname,
         user: initialState?.currentUser
