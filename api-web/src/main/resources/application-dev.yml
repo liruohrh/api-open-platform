@@ -1,9 +1,17 @@
+spring:
+#  cloud:
+#    nacos:
+#      server-addr: 127.0.0.1:8848
+#      discovery:
+#        namespace: dubbo
 springdoc:
   swagger-ui:
+    enabled: true
     path: /swagger-ui.html
     tags-sorter: alpha
     operations-sorter: alpha
   api-docs:
+    enabled: true
     path: /v3/api-docs
   group-configs:
     - group:  Platform

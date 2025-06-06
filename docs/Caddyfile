@@ -1,0 +1,30 @@
+:80 {
+  root * /srv
+  encode gzip
+
+  # 静态资源（直接从根目录提供）
+  handle_path /static/* {
+    file_server
+  }
+
+  # API 代理（如果有）
+  #handle_path /api/* {
+  #    reverse_proxy http://backend:8080
+  #}
+
+  # SPA 路由（其他所有请求）
+  handle {
+    try_files {path} {path}/ /index.html
+    file_server
+  }
+}
+
+:8080 {
+  rewrite * /api-platform{uri}
+  reverse_proxy * http://gateway:9000 {
+    # 关键：重写路径，保留原始请求路径
+    header_up Host {http.reverse_proxy.upstream.host}
+    header_up X-Real-IP {remote}
+    header_up X-Forwarded-For {remote_host}
+  }
+}

@@ -1,46 +1,51 @@
 spring:
-  config:
-    import:
-      - file:./private/mail.yml
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: api-platform
   profiles:
-    active: dev
-  mail:
-    #username
-    #password
-    default-encoding: utf-8
-    host: smtp.163.com
-    properties:
-      mail:
-        smtp:
-          ssl:
-            enable: true
+    active: ${APP_PROFILE:dev}
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_ADDR:127.0.0.1:3306}/${APP_DATABASE:api_platform}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:123456}
+  redis:
+    redisson:
+      config: |
+        useScriptCache: true
+        singleServerConfig:
+          address: redis://${REDIS_ADDR:127.0.0.1:6379}
+          database: ${REDIS_DATABASE:0}
+          username: ${REDIS_USERNAME:root}
+          password: ${REDIS_PASSWORD:123456}
+          clientName: api-platform
   cloud:
     nacos:
-      server-addr: 127.0.0.1:8848
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
       discovery:
         enabled: true
         register-enabled: true
         service: ${spring.application.name}
         ip-type: IPv4
-        namespace: e0673429-263b-49f1-9a4f-ea0527d5b07b
+        namespace: ${NACOS_NAMESPACE}
         group: ${spring.profiles.active}
+  config:
+    import:
+      - file:./private/mail.yml
+  mail:
+    default-encoding: utf-8
 server:
   port: 8080
   servlet:
     context-path: /api-platform
 dubbo:
   application:
-    name: api-platform
+    name: ${spring.application.name}
   protocol:
     name: dubbo
     port: -1
   registry:
     id: nacos
-    address: nacos://localhost:8848?namespace=e0673429-263b-49f1-9a4f-ea0527d5b07b
+    address: nacos://${spring.cloud.nacos.server-addr}?namespace=${spring.cloud.nacos.discovery.namespace}
     group: dubbo-${spring.profiles.active}
     register-mode: instance
 api-platform:
@@ -57,3 +62,6 @@ api-platform:
       - /user/register
       - /user/passwd
       - /oss/static/**
+logging:
+  level:
+    io.github.liruohrh.apiplatform.exception: warn

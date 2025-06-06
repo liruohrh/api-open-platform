@@ -1,0 +1,103 @@
+services:
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - /var/docker/api-open-platform/mysql/data/:/var/lib/mysql/
+      - /var/docker/api-open-platform/initsql/:/docker-entrypoint-initdb.d/
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+  redis:
+    image: redis:7.2.3
+    volumes:
+      - /var/docker/api-open-platform/redis/data/:/data/
+      - /var/docker/api-open-platform/redis/conf/:/usr/local/etc/redis/
+    command:
+      - redis-server
+      - /usr/local/etc/redis/redis.conf
+  nacos:
+    image: nacos/nacos-server:v2.1.0
+    volumes:
+      - /var/docker/api-open-platform/nacos/logs/:/home/nacos/logs/
+      - /var/docker/api-open-platform/nacos/data/:/home/nacos/data/
+#      - /var/docker/api-open-platform/nacos/conf/:/home/nacos/conf/
+    ports:
+      - "8848:8848"
+    environment:
+      - MODE=standalone
+      - MYSQL_SERVICE_HOST=mysql
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_DB_NAME=nacos
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=123456
+    depends_on:
+      - mysql
+  init-nacos-namespace:
+    image: alpine:3.16.3
+    depends_on:
+      - nacos
+    command: >
+      sh -c "
+      apt update && apt install -y --no-install-recommends curl;
+      # 等待 Nacos 启动
+      until curl -s http://nacos:8848/nacos/v1/console/health; do sleep 1; done;
+      curl -X POST 'http://nacos:8848/nacos/v1/console/namespaces' \
+        -d 'customNamespaceId=dubbonid&namespaceName=dubbo';
+      "
+  gateway:
+    build:
+      context: ./api-gateway/
+      dockerfile: ./Dockerfile
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mysql
+      - redis
+      - init-nacos-namespace
+      - platform
+    environment:
+      - APP_PROFILE=prod
+      - REDIS_ADDR=redis:6379
+      - REDIS_USERNAME=root
+      - REDIS_PASSWORD=123456
+      - REDIS_DATABASE=0
+      - NACOS_ADDR=nacos:8848
+      - NACOS_NAMESPACE=dubbonid
+  platform:
+    build:
+      context: ./api-platform/
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./private/:/app/private
+    depends_on:
+      - mysql
+      - redis
+      - init-nacos-namespace
+    environment:
+      - APP_PROFILE=prod
+      - APP_DATABASE=api_platform
+      - MYSQL_ADDR=mysql:3306
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=123456
+      - REDIS_ADDR=redis:6379
+      - REDIS_USERNAME=root
+      - REDIS_PASSWORD=123456
+      - REDIS_DATABASE=0
+      - NACOS_ADDR=nacos:8848
+      - NACOS_NAMESPACE=dubbonid
+  api-web:
+    build:
+      context: ./api-web/
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mysql
+    environment:
+      - APP_PROFILE=prod
+  web:
+    image: caddy:2.7.6-alpine
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "./frontend/dist:/srv"
+      - "./docs/Caddyfile:/etc/caddy/Caddyfile"
+      - "/var/docker/caddy/data/:/data"
