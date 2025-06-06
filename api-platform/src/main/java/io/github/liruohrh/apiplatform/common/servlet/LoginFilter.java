@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.Data;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,12 @@ import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
 public class LoginFilter extends OncePerRequestFilter {
-  private final List<PathPattern> whiteList;
+  @Data
+  static class ResourceMatcher{
+    private HttpMethod method;
+    private PathPattern pattern;
+  }
+  private final List<ResourceMatcher> whiteList;
   private final RedisTemplate<Object,Object> redisTemplate;
   private final UserService userService;
 
@@ -33,7 +39,19 @@ public class LoginFilter extends OncePerRequestFilter {
 
   ) {
     PathPatternParser pathPatternParser = new PathPatternParser();
-    this.whiteList = whiteList.stream().map(pathPatternParser::parse).collect(Collectors.toList());
+    this.whiteList = whiteList.stream().map(white->{
+          String[] split = white.split(",");
+          ResourceMatcher resourceMatcher = new ResourceMatcher();
+          if(split.length == 1){
+            resourceMatcher.setMethod(null);
+            resourceMatcher.setPattern(pathPatternParser.parse(white));
+          }else{
+            resourceMatcher.setMethod(HttpMethod.resolve(split[0]));
+            resourceMatcher.setPattern(pathPatternParser.parse(split[1]));
+          }
+          return resourceMatcher;
+        })
+        .collect(Collectors.toList());
     this.redisTemplate = redisTemplate;
     this.userService = userService;
   }
@@ -57,16 +75,13 @@ public class LoginFilter extends OncePerRequestFilter {
     String requestURI = request.getRequestURI();
     requestURI = requestURI.replace(request.getContextPath(), "");
     PathContainer pathContainer = PathContainer.parsePath(requestURI);
-    if(whiteList.stream().anyMatch(whitePath->whitePath.matches(pathContainer))){
-//      if(cookie != null){
-//        Long loginUserId = LoginUtils.getLoginState(cookie, redisTemplate);
-//        if(loginUserId == null){
-//          hasNotLogin(request, response);
-//          return;
-//        }
-//        LoginUserHolder.set(loginUserId, ()->userService.getById(loginUserId));
-//        return;
-//      }
+    if(whiteList.stream().anyMatch(whitePath->
+        (whitePath.getMethod() == null || whitePath.getMethod().matches(method))
+            && whitePath.getPattern().matches(pathContainer))){
+      if(cookie != null){
+        saveLoginContext(request, response, cookie);
+        return;
+      }
       filterChain.doFilter(request, response);
       return;
     }
@@ -76,13 +91,18 @@ public class LoginFilter extends OncePerRequestFilter {
       hasNotLogin(request, response);
       return;
     }
+    saveLoginContext(request, response, cookie);
+    filterChain.doFilter(request, response);
+  }
+
+  private void saveLoginContext(HttpServletRequest request, HttpServletResponse response, Cookie cookie)
+      throws IOException {
     Long loginUserId = LoginUtils.getLoginState(cookie, redisTemplate);
     if(loginUserId == null){
       hasNotLogin(request, response);
       return;
     }
     LoginUserHolder.set(loginUserId, ()->userService.getById(loginUserId));
-    filterChain.doFilter(request, response);
   }
 
   private void hasNotLogin(HttpServletRequest request, HttpServletResponse response)

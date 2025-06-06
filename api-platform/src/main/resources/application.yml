@@ -62,6 +62,10 @@ api-platform:
       - /user/register
       - /user/passwd
       - /oss/static/**
+      - GET,/http-api/*
+      - /http-api/search
+      - GET,/comment
+      - GET,/comment/reply
 logging:
   level:
     io.github.liruohrh.apiplatform.exception: warn
