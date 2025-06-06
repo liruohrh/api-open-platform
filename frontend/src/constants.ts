@@ -1,8 +1,6 @@
-export const isDev = () => {
-  return process.env.NODE_ENV === 'development';
-};
+export const isDev = process.env.NODE_ENV === 'development';
 export const getBackendBaseURL = () => {
-  if (isDev()) {
+  if (isDev) {
     return 'http://127.0.0.1:9000/api-platform';
   } else {
     return 'http://127.0.0.1:8080';

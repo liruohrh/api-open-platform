@@ -7,8 +7,7 @@ import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import { getLoginUser } from '@/services/api-platform/userController';
 import { requestConfig } from '@/requestConfig';
-import { loginPath, NeedLogin } from '@/constants';
-const isDev = process.env.NODE_ENV === 'development';
+import { isDev, loginPath, NeedLogin } from '@/constants';
 
 
 /**
