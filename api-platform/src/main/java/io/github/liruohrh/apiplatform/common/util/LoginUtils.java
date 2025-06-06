@@ -28,12 +28,7 @@ public class LoginUtils {
       Cookie cookie,
       RedisTemplate<Object, Object> redisTemplate
   ) {
-    Number loginUserId = (Number) redisTemplate.opsForValue()
-        .get(RedisConstant.PREFIX_LOGIN + cookie.getValue());
-    if(loginUserId == null ) {
-      return null;
-    }
-    return loginUserId.longValue();
+    return getLoginState(cookie.getValue(), redisTemplate);
   }
 
 

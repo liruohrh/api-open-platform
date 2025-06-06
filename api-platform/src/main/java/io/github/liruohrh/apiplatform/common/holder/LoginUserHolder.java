@@ -1,31 +1,38 @@
 package io.github.liruohrh.apiplatform.common.holder;
 
+import com.google.common.base.Supplier;
 import io.github.liruohrh.model.entity.User;
-import java.util.function.Supplier;
 
 public class LoginUserHolder {
-  private static final ThreadLocal<Supplier<User>> threadLocal = new ThreadLocal<>();
-  private static final ThreadLocal<Long> loginUserIdThreadLocal = new ThreadLocal<>();
-  public static void set(Long userId, Supplier<User> subject){
-    threadLocal.set(new Supplier<User>() {
-      User user = null;
-      @Override
-      public User get() {
-        if(user == null){
-          user = subject.get();
-        }
-        return user;
-      }
-    });
-    loginUserIdThreadLocal.set(userId);
+  private static final ThreadLocal<Boolean> needLoginThreadLocal = new ThreadLocal<>();
+  private static final ThreadLocal<Supplier<Long>> loginUserIdGetterThreadLocal = new ThreadLocal<>();
+  private static final ThreadLocal<Supplier<User>> userGetterThreadLocal = new ThreadLocal<>();
+  public static void set(
+      boolean needLogin,
+      Supplier<Long> loginUserIdGetter,
+      Supplier<User> userGetter
+  ){
+    needLoginThreadLocal.set(needLogin);
+    loginUserIdGetterThreadLocal.set(loginUserIdGetter);
+    userGetterThreadLocal.set(userGetter);
   }
   public static User get(){
-    return threadLocal.get().get();
+    return userGetterThreadLocal.get().get();
+  }
+  public static boolean needLogin(){
+    return needLoginThreadLocal.get();
   }
   public static boolean isLogin(){
-    return loginUserIdThreadLocal.get() != null;
+    return loginUserIdGetterThreadLocal.get() != null;
   }
   public static Long getUserId(){
-    return loginUserIdThreadLocal.get();
+    Supplier<Long> supplier = loginUserIdGetterThreadLocal.get();
+    return supplier == null ? null : supplier.get();
+  }
+
+  public static void clear() {
+    needLoginThreadLocal.remove();
+    loginUserIdGetterThreadLocal.remove();
+    userGetterThreadLocal.remove();
   }
 }

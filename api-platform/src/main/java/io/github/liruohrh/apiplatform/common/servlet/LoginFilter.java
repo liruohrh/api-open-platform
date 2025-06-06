@@ -1,5 +1,7 @@
 package io.github.liruohrh.apiplatform.common.servlet;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import io.github.liruohrh.apiplatform.common.holder.LoginUserHolder;
 import io.github.liruohrh.apiplatform.common.util.LoginUtils;
 import io.github.liruohrh.apiplatform.common.util.RequestUtils;
@@ -75,34 +77,41 @@ public class LoginFilter extends OncePerRequestFilter {
     String requestURI = request.getRequestURI();
     requestURI = requestURI.replace(request.getContextPath(), "");
     PathContainer pathContainer = PathContainer.parsePath(requestURI);
-    if(whiteList.stream().anyMatch(whitePath->
+    boolean needLogin = whiteList.stream().noneMatch(whitePath ->
         (whitePath.getMethod() == null || whitePath.getMethod().matches(method))
-            && whitePath.getPattern().matches(pathContainer))){
-      if(cookie != null){
-        saveLoginContext(request, response, cookie);
+            && whitePath.getPattern().matches(pathContainer)
+    );
+    if(cookie == null && needLogin){
+      hasNotLogin(request, response);
+      return;
+    }
+
+    try {
+      if(cookie != null) {
+        Long loginUserId = null;
+        if(needLogin){
+          loginUserId = LoginUtils.getLoginState(cookie, redisTemplate);
+          if (loginUserId == null) {
+            hasNotLogin(request, response);
+            return;
+          }
+        }
+        final Long _loginUserId = loginUserId;
+        final String apiToken = cookie.getValue();
+        Supplier<Long> loginUserIdGetter = Suppliers.memoize(() -> _loginUserId == null ? null
+            : LoginUtils.getLoginState(apiToken, redisTemplate));
+        LoginUserHolder.set(
+            needLogin,
+            loginUserIdGetter,
+            Suppliers.memoize(() -> loginUserIdGetter.get() == null ? null : userService.getById(loginUserIdGetter.get()))
+        );
       }
       filterChain.doFilter(request, response);
-      return;
+    }finally{
+      LoginUserHolder.clear();
     }
-
-    //必须登录
-    if(cookie == null){
-      hasNotLogin(request, response);
-      return;
-    }
-    saveLoginContext(request, response, cookie);
-    filterChain.doFilter(request, response);
   }
 
-  private void saveLoginContext(HttpServletRequest request, HttpServletResponse response, Cookie cookie)
-      throws IOException {
-    Long loginUserId = LoginUtils.getLoginState(cookie, redisTemplate);
-    if(loginUserId == null){
-      hasNotLogin(request, response);
-      return;
-    }
-    LoginUserHolder.set(loginUserId, ()->userService.getById(loginUserId));
-  }
 
   private void hasNotLogin(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
