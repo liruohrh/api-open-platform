@@ -1,9 +1,9 @@
 export const isDev = process.env.NODE_ENV === 'development';
 export const getBackendBaseURL = () => {
   if (isDev) {
-    return 'http://127.0.0.1:9000/api-platform';
+    return 'http://127.0.0.1:8080/api-platform';
   } else {
-    return 'http://127.0.0.1:8080';
+    return 'http://127.0.0.1:9000/api-platform';
   }
 };
 export const loginPath = '/user/login';
