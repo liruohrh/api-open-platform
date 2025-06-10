@@ -136,6 +136,9 @@ public class UserController {
     return Resp.ok(null);
   }
 
+  /**
+   * 单设备（一个浏览器也算一台设备）登录仅限一个账号，一个账号可在多设备登录
+   */
   @PostMapping("/login")
   public Resp<User> login(@Validated @LoginParamCheck @RequestBody UserLoginReq userLoginReq) {
     if(LoginUserHolder.isLogin()){
