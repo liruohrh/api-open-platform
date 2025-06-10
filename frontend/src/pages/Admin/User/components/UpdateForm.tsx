@@ -1,4 +1,4 @@
-import { MailOutlined, UserOutlined } from '@ant-design/icons';
+import { CloseOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import '@umijs/max';
 import { notification, Space, Typography } from 'antd';
@@ -20,6 +20,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ onFormFinish, handlerCloseModal
   const setAvatarUrl = (url: string) => {
     avatarUrl = url;
   };
+
   return (
     //Modal可以在任意地方使用，重新渲染本组件才会删除Modal，否则Modal仅仅是关闭而已，可以用Modal.useModal手动管理，但是就只是
     <ModalForm
@@ -63,8 +64,9 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ onFormFinish, handlerCloseModal
       }}
       modalProps={{
         // 这样才会销毁Modal，也可以调用Modal.destroyAll()
-        destroyOnClose: true,
-        confirmLoading: confirmLoading
+        destroyOnHidden: true,
+        confirmLoading: confirmLoading,
+        closeIcon: <CloseOutlined onClick={handlerCloseModal} />
       }}
     >
       <ProFormText name="id" hidden initialValue={values.id} />
