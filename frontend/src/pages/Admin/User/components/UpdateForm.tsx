@@ -128,16 +128,18 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ onFormFinish, handlerCloseModal
               initialValue={values.status}
               name="status"
               label={'状态'}
-              valueEnum={{
-                0: {
-                  text: '正常',
-                  status: 'Success',
+              //使用valueEnum就是字符串，值也必须是字符串（传递的valueEnum的对象是JS对象，key就是字符串），
+              // 但使用options在获取值时仍然是数字
+              options={[
+                {
+                  label: "正常",
+                  value: 0,
                 },
-                1: {
-                  text: '冻结',
-                  status: 'Warning',
-                },
-              }}
+                {
+                  label: "冻结",
+                  value: 1,
+                }
+              ]}
               required={false}
             />
           </Space>
