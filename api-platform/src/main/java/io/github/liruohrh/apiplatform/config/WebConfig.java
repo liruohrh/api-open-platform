@@ -10,6 +10,8 @@ import org.springframework.boot.web.servlet.server.CookieSameSiteSupplier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.core.io.PathResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -33,22 +35,25 @@ public class WebConfig {
   }
 
   @Bean
-  public WebMvcConfigurer webMvcConfigurer(){
+  public WebMvcConfigurer webMvcConfigurer(Environment environment){
     return new WebMvcConfigurer() {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-            .allowedOrigins(
-                "http://localhost:8000",
-                "http://127.0.0.1:8000",
-                "http://localhost",
-                "http://127.0.0.1"
-            )
-            .allowedMethods("GET", "POST", "DELETE", "PUT")
-            .allowCredentials(true)
-            .allowedHeaders("*")
-            .exposedHeaders("*")
-            .maxAge(10 * 60 * 10);
+        //dev时前端用，以便不启动gateway，prod时gateway也有，导致响应二次cors头，浏览器会报错
+        if(environment.acceptsProfiles(Profiles.of("dev"))){
+          registry.addMapping("/**")
+              .allowedOrigins(
+                  "http://localhost:8000",
+                  "http://127.0.0.1:8000",
+                  "http://localhost",
+                  "http://127.0.0.1"
+              )
+              .allowedMethods("GET", "POST", "DELETE", "PUT")
+              .allowCredentials(true)
+              .allowedHeaders("*")
+              .exposedHeaders("*")
+              .maxAge(10 * 60 * 10);
+        }
       }
 
       @Override
