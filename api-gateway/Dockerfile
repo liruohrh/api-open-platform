@@ -21,4 +21,4 @@ COPY /target/$APP_NAME*.jar /app/app.jar
 EXPOSE 9001
 
 
-CMD ["sh", "-c", "java $JVM_ARGS -jar app.jar $JAVA_ARGS"]
+ENTRYPOINT exec java $JVM_ARGS -jar app.jar $JAVA_ARGS

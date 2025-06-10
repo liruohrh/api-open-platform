@@ -18,7 +18,7 @@ RUN apk add --no-cache tzdata && \
 WORKDIR /app
 COPY /target/$APP_NAME*.jar /app/app.jar
 
-EXPOSE 9001
+EXPOSE 8080
 
-
-CMD ["sh", "-c", "java $JVM_ARGS -jar app.jar $JAVA_ARGS"]
+# 这样才能不用只需sh -c 命令来读取环境变量
+ENTRYPOINT exec java $JVM_ARGS -jar app.jar $JAVA_ARGS
