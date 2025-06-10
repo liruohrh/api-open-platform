@@ -2,12 +2,11 @@ package io.github.liruohrh.apiplatform.config;
 
 import io.github.liruohrh.apiplatform.common.servlet.LoginFilter;
 import io.github.liruohrh.apiplatform.common.servlet.SinglePageHistoryModeRedirectFilter;
+import io.github.liruohrh.apiplatform.constant.CommonConstant;
 import io.github.liruohrh.apiplatform.controller.OssController;
 import io.github.liruohrh.apiplatform.service.UserService;
-import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
-import org.apache.tomcat.util.http.SameSiteCookies;
-import org.springframework.boot.web.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.server.CookieSameSiteSupplier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -19,13 +18,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig {
+
+  /**
+   * @issue 无法跨域携带cookie
+   * @note 较新的浏览器强制要求设置SameSite来控制跨域。
+   * StandardContext#startInternal()会创建一个默认的CookieProcessor UNSET即不设置。
+   * TomcatServletWebServerFactory#configureCookieProcessor 会给session设置一个，或者注入了CookieSameSiteSupplier时。
+   * 直接用TomcatContextCustomizer设置一个也行。
+   */
   @Bean
-  public TomcatContextCustomizer sameSiteCookiesConfig() {
-    return context -> {
-      final Rfc6265CookieProcessor cookieProcessor = new Rfc6265CookieProcessor();
-      cookieProcessor.setSameSiteCookies(SameSiteCookies.NONE.getValue());
-      context.setCookieProcessor(cookieProcessor);
-    };
+  public CookieSameSiteSupplier cookieSameSiteSupplier() {
+    return CookieSameSiteSupplier.ofNone()
+        .whenHasName(CommonConstant.COOKIE_LOGIN_NAME);
   }
 
   @Bean
