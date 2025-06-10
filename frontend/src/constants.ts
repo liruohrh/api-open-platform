@@ -7,7 +7,7 @@ export const getBackendBaseURL = () => {
   }
 };
 export const loginPath = '/user/login';
-export const loginWhiteList = ['/api/info', '/api/list', '/user/register', '/welcome', '/'];
+export const loginWhiteList = ['/api/list', '/user/register', '/welcome', '/'];
 export const loginWhiteListRegexps = [/\/api\/info\/\w+/];
 export const NeedLogin = (path: string): boolean => {
   if (

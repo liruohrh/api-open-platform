@@ -10,7 +10,7 @@
   },
   { path: '/welcome', name: '主页', icon: 'smile', component: './Welcome' },
   { name: '接口广场', icon: 'reddit', path: '/api/list', component: './API/List' },
-  { path: '/api/:id', component: './API/$id' },
+  { path: '/api/info/:id', component: './API/$id' },
   { name: '我的订单', icon: 'reddit', path: '/order/list', component: './Order/List' },
   { path: '/order/:id', component: './Order/$id' },
   { path: '/order/pay/:id', component: './Order/Pay/$id' },

@@ -125,7 +125,7 @@ const APIListPage: React.FC = () => {
         grid={{ gutter: 16, column: 3 }}
         renderItem={(apiSearchVo: API.ApiSearchVo) => {
           return (
-            <Link to={`/api/${apiSearchVo.id}`}>
+            <Link to={`/api/info/${apiSearchVo.id}`}>
               <Card
                 style={{ margin: "10px" }}
               >
