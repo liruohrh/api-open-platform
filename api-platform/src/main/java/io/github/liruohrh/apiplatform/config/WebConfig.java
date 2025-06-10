@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.PathResource;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -31,21 +32,21 @@ public class WebConfig {
   @Bean
   public WebMvcConfigurer webMvcConfigurer(){
     return new WebMvcConfigurer() {
-//      @Override
-//      public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//            .allowedOrigins(
-//                "http://localhost:8000",
-//                "http://127.0.0.1:8000",
-//                "http://localhost",
-//                "http://127.0.0.1"
-//            )
-//            .allowedMethods("GET", "POST", "DELETE", "PUT")
-//            .allowCredentials(true)
-//            .allowedHeaders("*")
-//            .exposedHeaders("*")
-//            .maxAge(10 * 60 * 10);
-//      }
+      @Override
+      public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+            .allowedOrigins(
+                "http://localhost:8000",
+                "http://127.0.0.1:8000",
+                "http://localhost",
+                "http://127.0.0.1"
+            )
+            .allowedMethods("GET", "POST", "DELETE", "PUT")
+            .allowCredentials(true)
+            .allowedHeaders("*")
+            .exposedHeaders("*")
+            .maxAge(10 * 60 * 10);
+      }
 
       @Override
       public void addResourceHandlers(ResourceHandlerRegistry registry) {
