@@ -4,6 +4,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import io.github.liruohrh.apiplatform.constant.CommonConstant;
 import io.github.liruohrh.apiplatform.constant.RedisConstant;
 import io.github.liruohrh.apiwebcommon.utils.RequestUtils;
+import java.time.Instant;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.Cookie;
@@ -58,7 +59,7 @@ public class LoginUtils {
       RedisTemplate<Object, Object> redisTemplate,
       Long userId
   ) {
-    byte[] bytes1 = DigestUtil.md5(userId + "");
+    byte[] bytes1 = DigestUtil.md5(RequestUtils.getUserAgent() + "_" + Instant.now().getEpochSecond() + "_" + userId);
     byte[] bytes2 = DigestUtil.md5(bytes1);
     byte[] bytes = new byte[bytes2.length + bytes2.length];
     System.arraycopy(bytes1, 0, bytes, 0, bytes1.length);

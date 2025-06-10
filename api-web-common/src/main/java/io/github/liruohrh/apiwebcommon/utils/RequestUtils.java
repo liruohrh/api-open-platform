@@ -47,4 +47,8 @@ public class RequestUtils {
     }
     return httpHeaders;
   }
+
+  public static String getUserAgent() {
+    return getRequest().getHeader(HttpHeaders.USER_AGENT);
+  }
 }
