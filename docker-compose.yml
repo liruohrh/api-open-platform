@@ -31,18 +31,18 @@ services:
       - MYSQL_SERVICE_PASSWORD=123456
     depends_on:
       - mysql
-  init-nacos-namespace:
-    image: alpine:3.16.3
-    depends_on:
-      - nacos
-    command: >
-      sh -c "
-      apt update && apt install -y --no-install-recommends curl;
-      # 等待 Nacos 启动
-      until curl -s http://nacos:8848/nacos/v1/console/health; do sleep 1; done;
-      curl -X POST 'http://nacos:8848/nacos/v1/console/namespaces' \
-        -d 'customNamespaceId=dubbonid&namespaceName=dubbo';
-      "
+#  init-nacos-namespace:
+#    image: alpine:3.16.3
+#    depends_on:
+#      - nacos
+#    command: >
+#      sh -c "
+#      apk update && apk install -y --no-install-recommends curl;
+#      # 等待 Nacos 启动
+#      until curl -s http://nacos:8848/nacos/v1/console/health; do sleep 1; done;
+#      curl -X POST 'http://nacos:8848/nacos/v1/console/namespaces' \
+#        -d 'customNamespaceId=dubbonid&namespaceName=dubbo';
+#      "
   gateway:
     build:
       context: ./api-gateway/
@@ -52,7 +52,6 @@ services:
     depends_on:
       - mysql
       - redis
-      - init-nacos-namespace
       - platform
     environment:
       - APP_PROFILE=prod
@@ -71,8 +70,11 @@ services:
     depends_on:
       - mysql
       - redis
-      - init-nacos-namespace
+    ports:
+      - "5005:5005"
     environment:
+#      不能用""包裹值
+      - JVM_ARGS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       - APP_PROFILE=prod
       - APP_DATABASE=api_platform
       - MYSQL_ADDR=mysql:3306
