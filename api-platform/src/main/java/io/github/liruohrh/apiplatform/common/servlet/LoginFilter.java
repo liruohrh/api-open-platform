@@ -4,7 +4,7 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import io.github.liruohrh.apiplatform.common.holder.LoginUserHolder;
 import io.github.liruohrh.apiplatform.common.util.LoginUtils;
-import io.github.liruohrh.apiplatform.common.util.RequestUtils;
+import io.github.liruohrh.apiwebcommon.utils.RequestUtils ;
 import io.github.liruohrh.apiplatform.constant.CommonConstant;
 import io.github.liruohrh.apiplatform.service.UserService;
 import java.io.IOException;

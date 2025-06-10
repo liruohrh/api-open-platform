@@ -6,12 +6,11 @@ import io.github.liruohrh.apicommon.error.BusinessException;
 import io.github.liruohrh.apicommon.error.ErrorCode;
 import io.github.liruohrh.apicommon.error.ParamException;
 import io.github.liruohrh.apicommon.error.Resp;
-import io.github.liruohrh.apiplatform.common.holder.RequestHolder;
 import io.github.liruohrh.apiplatform.common.util.EmailUtils;
-import io.github.liruohrh.apiplatform.common.util.RequestUtils;
 import io.github.liruohrh.apiplatform.constant.CommonConstant;
 import io.github.liruohrh.apiplatform.constant.RedisConstant;
 import io.github.liruohrh.apiplatform.service.EmailService;
+import io.github.liruohrh.apiwebcommon.utils.RequestUtils;
 import java.util.concurrent.TimeUnit;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +58,7 @@ public class EmailServiceImpl implements EmailService {
     if (sendCount != null) {
       if (sendCount > CommonConstant.MAX_CALL_CAPTCHA) {
         freezeString.set("");
-        HttpServletRequest req = RequestHolder.get();
+        HttpServletRequest req = RequestUtils.getRequest();
         log.warn("用户请求邮箱验证码超过{}次，email={}, addr={}，headers={}",
             CommonConstant.MAX_CALL_CAPTCHA, email,
             req.getRemoteAddr(), RequestUtils.getHeaders(req)
@@ -102,7 +101,7 @@ public class EmailServiceImpl implements EmailService {
     if (sendCount != null) {
       if (sendCount > CommonConstant.MAX_CALL_VERIFY_CAPTCHA) {
         freezeString.set("");
-        HttpServletRequest req = RequestHolder.get();
+        HttpServletRequest req = RequestUtils.getRequest();
         log.warn("用户验证邮箱验证码超过{}次，email={}, addr={}，headers={}",
             CommonConstant.MAX_CALL_VERIFY_CAPTCHA, email,
             req.getRemoteAddr(), RequestUtils.getHeaders(req)

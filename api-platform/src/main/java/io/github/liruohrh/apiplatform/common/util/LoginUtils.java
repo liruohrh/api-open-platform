@@ -1,9 +1,9 @@
 package io.github.liruohrh.apiplatform.common.util;
 
 import cn.hutool.crypto.digest.DigestUtil;
-import io.github.liruohrh.apiplatform.common.holder.RequestHolder;
 import io.github.liruohrh.apiplatform.constant.CommonConstant;
 import io.github.liruohrh.apiplatform.constant.RedisConstant;
+import io.github.liruohrh.apiwebcommon.utils.RequestUtils;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.Cookie;
@@ -35,14 +35,14 @@ public class LoginUtils {
   public static boolean clearLoginState(
       RedisTemplate<Object, Object> redisTemplate
   ) {
-    String apiToken = getLoginIdentity(RequestHolder.get());
+    String apiToken = getLoginIdentity(RequestUtils.getRequest());
     if (apiToken == null) {
       return false;
     }
 
     Object loginUserId = redisTemplate.opsForValue()
         .getAndDelete(RedisConstant.PREFIX_LOGIN + apiToken);
-    RequestHolder.getResp().addCookie(getCookie(apiToken, 0));
+    RequestUtils.getResponse().addCookie(getCookie(apiToken, 0));
     return loginUserId != null;
   }
 
@@ -67,7 +67,7 @@ public class LoginUtils {
 
     redisTemplate.opsForValue().set(RedisConstant.PREFIX_LOGIN + apiToken, userId, RedisConstant.EXPIRE_LOGIN, TimeUnit.MILLISECONDS);
 
-    HttpServletResponse resp = RequestHolder.getResp();
+    HttpServletResponse resp = RequestUtils.getResponse();
 //    ResponseCookie loginStateCookie = ResponseCookie.from(CommonConstant.COOKIE_LOGIN_NAME, apiToken)
 //        .sameSite(SameSite.NONE.attributeValue())
 //        .secure(true)

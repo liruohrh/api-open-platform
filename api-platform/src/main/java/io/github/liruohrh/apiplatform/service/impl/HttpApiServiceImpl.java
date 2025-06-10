@@ -14,7 +14,7 @@ import io.github.liruohrh.apicommon.error.ParamException;
 import io.github.liruohrh.apicommon.error.Resp;
 import io.github.liruohrh.apiplatform.common.holder.LoginUserHolder;
 import io.github.liruohrh.apiplatform.common.util.MustUtils;
-import io.github.liruohrh.apiplatform.common.util.RequestUtils;
+import io.github.liruohrh.apiwebcommon.utils.RequestUtils;
 import io.github.liruohrh.apiplatform.mapper.HttpApiMapper;
 import io.github.liruohrh.apiplatform.model.enume.APIStatusEnum;
 import io.github.liruohrh.apiplatform.model.enume.RoleEnum;

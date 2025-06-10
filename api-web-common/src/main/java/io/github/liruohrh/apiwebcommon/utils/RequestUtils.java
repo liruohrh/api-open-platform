@@ -1,4 +1,4 @@
-package io.github.liruohrh.apiplatform.common.util;
+package io.github.liruohrh.apiwebcommon.utils;
 
 import java.util.Collections;
 import java.util.Map;
@@ -6,10 +6,20 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
 
 public class RequestUtils {
+  public static HttpServletRequest getRequest()
+  {
+    return ServletUtils.getRequest();
+  }
+  public static HttpServletResponse getResponse()
+  {
+    return ServletUtils.getResponse();
+  }
+
   public static Cookie getCookie(HttpServletRequest req, String name){
     Cookie[] cookies = req.getCookies();
     if(cookies == null){

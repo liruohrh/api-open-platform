@@ -1,6 +1,5 @@
 package io.github.liruohrh.apiplatform.config;
 
-import io.github.liruohrh.apiplatform.common.servlet.HolderFilter;
 import io.github.liruohrh.apiplatform.common.servlet.LoginFilter;
 import io.github.liruohrh.apiplatform.common.servlet.SinglePageHistoryModeRedirectFilter;
 import io.github.liruohrh.apiplatform.controller.OssController;
@@ -69,14 +68,6 @@ public class WebConfig {
     ));
     registrationBean.addUrlPatterns("/*");
     registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE+200);
-    return registrationBean;
-  }
-  @Bean
-  public FilterRegistrationBean<HolderFilter> holderFilterFilter(){
-    FilterRegistrationBean<HolderFilter> registrationBean = new FilterRegistrationBean<>();
-    registrationBean.setFilter(new HolderFilter());
-    registrationBean.addUrlPatterns("/*");
-    registrationBean.setOrder(Ordered.LOWEST_PRECEDENCE);
     return registrationBean;
   }
   @Bean
