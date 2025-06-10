@@ -49,6 +49,8 @@ dubbo:
     group: dubbo-${spring.profiles.active}
     register-mode: instance
 api-platform:
+  oss:
+    prefix: ${OSS_PREFIX:http://127.0.0.1:${server.port}${server.servlet.context-path}}
   login:
     white-list:
       - /doc.html

@@ -10,7 +10,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -22,13 +21,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/oss")
 @Controller
 public class OssController {
-  private final String port;
+  private final String ossPrefix;
 
   public OssController(
-  @Value("${server.port}") String port
+  @Value("${api-platform.oss.prefix}") String ossPrefix
 
   ) {
-    this.port = port;
+    if(ossPrefix.endsWith("/")){
+      ossPrefix = ossPrefix.substring(0, ossPrefix.length() - 1);
+    }
+    this.ossPrefix = ossPrefix;
   }
 
 
@@ -40,14 +42,14 @@ public class OssController {
    */
   @ResponseBody
   @PostMapping
-  public String upload(@RequestPart("file") Part file, HttpServletRequest req) throws IOException {
+  public String upload(@RequestPart("file") Part file) throws IOException {
     String url;
     String contentType = file.getContentType();
     if(contentType.startsWith("image/")){
       if(!contentType.endsWith("jpeg") && !contentType.endsWith("png")){
         throw new ParamException("不支持 jpeg/png外的图片");
       }
-      url = addImg(file.getInputStream(), contentType.replace("image/", ""), "http://127.0.0.1:" + port);
+      url = addImg(file.getInputStream(), contentType.replace("image/", ""), ossPrefix);
     }else{
       throw new ParamException("不支持 " + contentType);
     }
