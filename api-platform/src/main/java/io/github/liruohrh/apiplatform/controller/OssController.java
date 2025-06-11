@@ -72,12 +72,9 @@ public class OssController {
 
   private static String getRootDir() {
     Path rootDir = Paths.get(System.getProperty("user.home"), ".easyapi");
-    File file = rootDir.toFile();
-    if (!file.exists()) {
-      MustUtils.mustTrue(
-          Paths.get(System.getProperty("user.home"), ".easyapi", "imgs").toFile().mkdirs(),
-          "创建本地OSS的rootDir失败"
-      );
+    File imgsDir = Paths.get(System.getProperty("user.home"), ".easyapi", "imgs").toFile();
+    if (!imgsDir.exists()) {
+      MustUtils.mustTrue(imgsDir.mkdirs(), "创建本地OSS的rootDir失败");
     }
     return rootDir.toString();
   }
