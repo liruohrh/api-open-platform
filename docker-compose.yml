@@ -67,6 +67,7 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - ./private/:/app/private
+      - /var/docker/api-open-platform/.easyapi:/root/.easyapi
     depends_on:
       - mysql
       - redis
