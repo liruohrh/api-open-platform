@@ -12,6 +12,7 @@ import ReqBodySchemaExample from "./example/ReqBodySchemaExample";
 import RespHeadersSchemaExample from "./example/RespHeadersSchemaExample";
 import ErrorCodesExample from "./example/ErrorCodesExample";
 import { jsonPrettify } from "@/utils";
+import { isSocketAddr } from "@/utils/valid";
 
 
 export type UpdateModalFormProps = {
@@ -179,17 +180,11 @@ const UpdateModalForm: React.FC<UpdateModalFormProps> = ({
             style={{ width: '100%' }}
           >
             <ProFormSelect
-              name="protocal"
-              label={'protocal'}
+              name="protocol"
+              label={'protocol'}
               valueEnum={{
-                "http": {
-                  text: 'http',
-                  status: 'warning',
-                },
-                "https": {
-                  text: 'https',
-                  status: 'success',
-                }
+                "http": 'http',
+                "https": 'https'
               }}
             />
 
@@ -203,9 +198,13 @@ const UpdateModalForm: React.FC<UpdateModalFormProps> = ({
                   message: "API domain不能为空"
                 },
                 {
-                  pattern: /(^((\d{1,3}\.){3}\d{1,3})|^((\w+\.)+\w+))(:\d{1,5})?$/,
-                  message: "非法domain"
-                },
+                  validator: (_: any, value?: string) => {
+                    if (!value || !isSocketAddr(value)) {
+                      return Promise.reject("非法domain");
+                    }
+                    return Promise.resolve();
+                  }
+                }
               ]}
             />
           </Space>
